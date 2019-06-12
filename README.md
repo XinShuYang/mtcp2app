@@ -1,3 +1,5 @@
 # mtcp2app
-cd /example/server
-./server (error)
+  deploy mtcp_redisx profile on cloudlab firstly
+  
+  cd /example/server
+  ./server (error)
