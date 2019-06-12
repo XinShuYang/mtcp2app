@@ -7,3 +7,4 @@
   cd /example/test
   make com
   sudo ./com  (pass)
+
