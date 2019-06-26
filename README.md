@@ -1,5 +1,5 @@
 # mtcp2app
-  (follow redisx profile instruction install onvm environment）  
+  (follow redisx profile instruction install onvm&dpdk environment）  
   cd /local  
   git clone {address}  
   cd mtcp2app/core/mtcp/src  
