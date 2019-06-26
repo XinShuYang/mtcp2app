@@ -8,13 +8,13 @@
 #include<sys/socket.h>
 #include<netinet/in.h>
 #include<signal.h>
-#include <mtcp_api.h>
 #include "poll.h"
 #include "debug.h"
 #include "request.h"
 #define BUFFSIZE 1024
 
-static void read_cb (poll_event_t * poll_event, poll_event_element_t * node, struct epoll_event ev)
+extern int socketnum;
+void read_cb (poll_event_t * poll_event, poll_event_element_t * node, struct epoll_event ev)
 {
     // NOTE -> read is also invoked on accept and connect
     INFO("in read_cb");
@@ -50,14 +50,14 @@ static void read_cb (poll_event_t * poll_event, poll_event_element_t * node, str
 }
 
 
-static void close_cb (poll_event_t * poll_event, poll_event_element_t * node, struct epoll_event ev)
+void close_cb (poll_event_t * poll_event, poll_event_element_t * node, struct epoll_event ev)
 {
     INFO("in close_cb");
     // close the socket, we are done with it
     poll_event_remove(poll_event, node->fd);
 }
 
-static void accept_cb(poll_event_t * poll_event, poll_event_element_t * node, struct epoll_event ev)
+void accept_cb(poll_event_t * poll_event, poll_event_element_t * node, struct epoll_event ev)
 {
     INFO("in accept_cb");
     // accept the connection 
@@ -77,7 +77,7 @@ static void accept_cb(poll_event_t * poll_event, poll_event_element_t * node, st
 }
 
 //time out function 
-static int timeout_cb (poll_event_t *poll_event)
+int timeout_cb (poll_event_t *poll_event)
 {
     // just keep a count
     if (!poll_event->data)
@@ -96,17 +96,17 @@ static int timeout_cb (poll_event_t *poll_event)
     }
     return 0;
 }
-static int main()
+int main()
 {
-    testprint();
     mod();
     setconfm();
     //SIGPIPE handle by kernel	
     struct sigaction sa;
     sa.sa_handler=SIG_IGN;
     sigaction(SIGPIPE,&sa,0);
-
+    
     // create a TCP socket, bind and listen
+    socketnum = 2;
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in svr_addr;
     memset(&svr_addr, 0 , sizeof(svr_addr));

@@ -1,6 +1,3 @@
-
-#mtcp
-CC=gcc -g -O3 -Wall -fgnu89-inline -nostartfiles 
 DPDK=1
 PS=0
 NETMAP=0
@@ -74,15 +71,15 @@ endif
 
 
 
-#CC = gcc -fPIC -g
+CC = gcc -fPIC -g
 LDFLAGS = -lm
 
 # set DEBUG options
-# ifdef DEBUG
-# CFLAGS = -Wall -Wextra -ggdb -pg -DDEBUG 
-# else
-# CFLAGS = -Wall -O2 
-# endif
+ifdef DEBUG
+CFLAGS = -Wall -Wextra -ggdb -pg -DDEBUG 
+else
+CFLAGS = -Wall -O2 
+endif
 
 #name all the object files
 OBJS = server.o  poll.o request.o string.o 
@@ -90,13 +87,13 @@ OBJS = server.o  poll.o request.o string.o
 all : epoll
 
 epoll : $(OBJS) ${MTCP_FLD}/lib/libmtcp.a
-	$(CC) $< ${LIBS} ${UTIL_OBJ} -o server $^
+	$(CC) $(LDFLAGS) ${LIBS} ${UTIL_OBJ} -o server $^
 
 debug :
 	make all DEBUG=1
 
 %.o : %.c
-	$(CC) $(CFLAGS) ${INC} -o $@ -c $^
+	$(CC) $(CFLAGS) -o $@ -c $^
 
 
 clean :

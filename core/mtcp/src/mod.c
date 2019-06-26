@@ -331,7 +331,7 @@ int socket(int domain, int type, int protocol){
     
     if (socketnum == 2){
         int fd = mtcp_socket(ctx->mctx,domain,type,protocol);
-        if(fd>0)
+        if(fd>=0)
             fd+= FD_VALUE;
         return fd;
     }
@@ -407,7 +407,7 @@ int epoll_create (int size){
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event){
     struct mtcp_epoll_event temp;
     if(epfd>=FD_VALUE){
-        if(fd<=FD_VALUE){
+        if(fd<FD_VALUE){
             printf("skip linuxfd\n");
             return 0;
         }

@@ -8,6 +8,7 @@
 #include <string.h>
 #include<unistd.h>
 
+extern int socketnum;
 
  static  poll_event_element_t * _nodes;
 //poll_event_element functions
@@ -58,6 +59,7 @@ poll_event_t * poll_event_new(int timeout)
     }
     
     poll_event->timeout = timeout;
+    socketnum = 2;
     poll_event->epoll_fd = epoll_create(MAX_EVENTS);
     INFO("Created a new poll event");
     return poll_event;

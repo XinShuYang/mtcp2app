@@ -1159,7 +1159,7 @@ MTCPRunThread(void *arg)
 	DestroyHashtable(g_mtcp[cpu]->listeners);
 	
 	TRACE_DBG("MTCP thread %d finished.\n", ctx->cpu);
-	
+        exit(1);	
 	return 0;
 }
 /*----------------------------------------------------------------------------*/
